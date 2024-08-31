@@ -49,10 +49,10 @@ function passwordContains(str) {
         isHaveCharacter:
             /(\@|\#|\!|\$|\%|\^|\&|\*|\(|\)|\_|\+|\-|\=|\\|\/|\>|\<|\?|\,|\.|\"|\'|\;|\:)/.test(str),
         passwordLength: str.length,
-        capitalLetterCount: str.match(/[A-Z]/g).length,
-        smallLetterCount: str.match(/[a-z]/g).length,
-        numberCount: str.match(/[0-9]/g).length,
-        characterCount: str.match(/(\@|\#|\!|\$|\%|\^|\&|\*|\(|\)|\_|\+|\-|\=|\\|\/|\>|\<|\?|\,|\.|\"|\'|\;|\:)/g).length,
+        capitalLetterCount: this.isHaveCapitalLetter ? str.match(/[A-Z]/g).length : 0,
+        smallLetterCount: this.isHaveSmallLetter ? str.match(/[a-z]/g).length : 0,
+        numberCount: this.isHaveNumber ? str.match(/[0-9]/g).length : 0,
+        characterCount: this.isHaveCharacter ? str.match(/(\@|\#|\!|\$|\%|\^|\&|\*|\(|\)|\_|\+|\-|\=|\\|\/|\>|\<|\?|\,|\.|\"|\'|\;|\:)/g)?.length : 0,
     };
 }
 
