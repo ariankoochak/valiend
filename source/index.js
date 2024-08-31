@@ -39,21 +39,29 @@ function isPhoneNumber(str, options = { ignoreCountryCode: false }) {
  * @return {object} An object containing string information
  */
 function passwordContains(str) {
-    if (typeof str !== "string" || str.length === 0) {
-        return {};
-    }
-    return {
-        isHaveCapitalLetter: /[A-Z]/.test(str),
-        isHaveSmallLetter: /[a-z]/.test(str),
-        isHaveNumber: /[0-9]/.test(str),
-        isHaveCharacter:
-            /(\@|\#|\!|\$|\%|\^|\&|\*|\(|\)|\_|\+|\-|\=|\\|\/|\>|\<|\?|\,|\.|\"|\'|\;|\:)/.test(str),
-        passwordLength: str.length,
-        capitalLetterCount: this.isHaveCapitalLetter ? str.match(/[A-Z]/g).length : 0,
-        smallLetterCount: this.isHaveSmallLetter ? str.match(/[a-z]/g).length : 0,
-        numberCount: this.isHaveNumber ? str.match(/[0-9]/g).length : 0,
-        characterCount: this.isHaveCharacter ? str.match(/(\@|\#|\!|\$|\%|\^|\&|\*|\(|\)|\_|\+|\-|\=|\\|\/|\>|\<|\?|\,|\.|\"|\'|\;|\:)/g)?.length : 0,
-    };
+        if (typeof str !== "string" || str.length === 0) {
+            return {};
+        }
+        const isHaveCapitalLetter = /[A-Z]/.test(str);
+        const isHaveSmallLetter = /[a-z]/.test(str);
+        const isHaveNumber = /[0-9]/.test(str);
+        const isHaveCharacter = /(\@|\#|\!|\$|\%|\^|\&|\*|\(|\)|\_|\+|\-|\=|\\|\/|\>|\<|\?|\,|\.|\"|\'|\;|\:)/.test(str);
+        const passwordLength = str.length;
+        const capitalLetterCount = isHaveCapitalLetter === true ? str.match(/[A-Z]/g).length : 0;
+        const smallLetterCount = isHaveSmallLetter === true ? str.match(/[a-z]/g).length : 0;
+        const numberCount = isHaveNumber === true ? str.match(/[0-9]/g).length : 0;
+        const characterCount = isHaveCharacter === true ? str.match(/(\@|\#|\!|\$|\%|\^|\&|\*|\(|\)|\_|\+|\-|\=|\\|\/|\>|\<|\?|\,|\.|\"|\'|\;|\:)/g)?.length : 0;
+        return {
+            isHaveCapitalLetter,
+            isHaveSmallLetter,
+            isHaveNumber,
+            isHaveCharacter,
+            passwordLength,
+            capitalLetterCount,
+            smallLetterCount,
+            numberCount,
+            characterCount,
+        };
 }
 
 /**
