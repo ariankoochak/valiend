@@ -50,4 +50,8 @@ valiend.separateEmail("aeromche@gmail.com");
   emailDomain: '.com'
 }*/
 
+valiend.passwordGenerator(12); //r_YXST46!a7e
+
+valiend.passwordQuality('Honh3443') //75
+
 ```
