@@ -5,8 +5,8 @@ const getRandomNumber = require('./utils/getRandomNumber')
 
 /**
  * With this method, you can check whether your string is email or not
- * @param {String} str Write the string you want to check whether it is an email or not in this parameter and pass it to the function
- * @return {Boolean} If the input string is an email, it returns true and if the input string is not an email, it returns false.
+ * @param {string} str Write the string you want to check whether it is an email or not in this parameter and pass it to the function
+ * @return {boolean} If the input string is an email, it returns true and if the input string is not an email, it returns false.
  */
 function isEmail(str) {
     try {
@@ -24,10 +24,10 @@ function isEmail(str) {
 
 /**
  * With this method, you can check whether your string is phone number or not
- * @param {String} str Write the string you want to check whether it is an phone number or not in this parameter and pass it to the function
+ * @param {string} str Write the string you want to check whether it is an phone number or not in this parameter and pass it to the function
  * @param {object} options phone number checking options
  * @param {boolean} options.ignoreCountryCode The entry should be checked without country code
- * @return {Boolean} If the input string is an phone number, it returns true and if the input string is not an phone number, it returns false.
+ * @return {boolean} If the input string is an phone number, it returns true and if the input string is not an phone number, it returns false.
  */
 function isPhoneNumber(str, options = { ignoreCountryCode: false }) {
     try {
@@ -48,7 +48,7 @@ function isPhoneNumber(str, options = { ignoreCountryCode: false }) {
 
 /**
  * With this method, you can get useful information about the password entered as a string in this method
- * @param {String} str The string you want checked
+ * @param {string} str The string you want checked
  * @return {object} An object containing string information
  */
 function passwordContains(str) {
@@ -83,7 +83,7 @@ function passwordContains(str) {
 
 /**
  * With this method, you can convert the email you received as a string into separate parts
- * @param {String} str An email in the form of a string that you want to separate its parts
+ * @param {string} str An email in the form of a string that you want to separate its parts
  * @return {object} An object containing Email information
  */
 function separateEmail(str){
@@ -105,7 +105,7 @@ function separateEmail(str){
 
 /**
  * With this method, you can check the quality and strength of the password
- * @param {String} str The password you want to check the quality of
+ * @param {string} str The password you want to check the quality of
  * @return {number} A number from 0 to 100 that indicates the quality of the password
  */
 function passwordQuality(str){
