@@ -98,10 +98,44 @@ function separateEmail(str){
     }
 }
 
+/**
+ * With this method, you can check the quality and strength of the password
+ * @param {String} str The password you want to check the quality of
+ * @return {number} A number from 0 to 100 that indicates the quality of the password
+ */
+function passwordQuality(str){
+    try {
+        if (typeof str !== "string" || str.length < 8) {
+            return 0;
+        }
+        let passwordRate = 0;
+        const contains = passwordContains(str);
+        if(contains.isHaveCapitalLetter === true){
+            passwordRate++
+        } 
+        if (contains.isHaveSmallLetter === true) {
+            passwordRate++;
+        } 
+        if (contains.isHaveCharacter === true) {
+            passwordRate++;
+        } 
+        if (contains.isHaveNumber === true) {
+            passwordRate++;
+        } 
+        if(contains.passwordLength >= 8 && passwordRate === 4){
+            passwordRate++;
+        }
+        passwordRate *= 25;
+        return passwordRate > 100 ? 100 : passwordRate;
+    } catch (error) {
+        return 0
+    }
+}
 
 module.exports = {
     isEmail,
     isPhoneNumber,
     passwordContains,
     separateEmail,
+    passwordQuality,
 };
