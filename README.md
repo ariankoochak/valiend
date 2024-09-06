@@ -1,6 +1,6 @@
 # Valiend
 
-valiend is an open source package that was created to make it easier to check email, password and phone number entries. With this package, you can check these entries much more easily than before and according to them, different conditions in the project develop your
+Valiend is an open source package created to make checking email, password and phone number input easier. By using this package, you can check these inputs much more easily than before and develop different conditions in your project according to them.
 
 ## install
 This is a [Node.js](https://nodejs.org/en/) module available through the
@@ -10,18 +10,24 @@ This is a [Node.js](https://nodejs.org/en/) module available through the
 $ npm install valiend
 ```
 ## Usage
+To use valiend, you must call it according to your use of common js or es module
+
+Common JS
 ```js
-const valiend = require('valiend');
+const valiend = require('valiend'); //common js
 
 valiend.isEmail('aeromche@gmail.com');
 ```
+ 
 
-valiend is only available in **commonJs**
-
-
+ES Module
 ```js
-const valiend = require('valiend');
+import {isEmail} from 'valiend'; //ES Module
 
+isEmail('aeromche@gmail.com');
+```
+## Features
+```js
 valiend.isEmail('aeromche@gmail.com'); //true
 
 valiend.isPhoneNumber('+989121234567'); //true
