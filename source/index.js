@@ -183,6 +183,19 @@ function passwordGenerator(passwordLength = 8){
     }
 }
 
+/**
+ * With this method, you can check whether your variable is completely a numeric or not
+ * @param {*} input 
+ * @return {Boolean}
+ */
+function isNumeric(input){
+    let numberDataTypeInput = Number(input);
+    if(isNaN(numberDataTypeInput) || numberDataTypeInput === Infinity){
+        return false;
+    }
+    return true
+}
+
 module.exports = {
     isEmail,
     isPhoneNumber,
@@ -190,4 +203,5 @@ module.exports = {
     separateEmail,
     passwordQuality,
     passwordGenerator,
+    isNumeric,
 };
