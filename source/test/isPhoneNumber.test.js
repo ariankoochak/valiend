@@ -12,6 +12,12 @@ test("isPhoneNumber => '9121234567' & option = {ignoreCountryCode : true} :: tru
     expect(valiend.isPhoneNumber("9121234567",{ignoreCountryCode : true})).toBe(true);
 });
 
+test("isPhoneNumber => '09121234567' & option = {ignoreCountryCode : true} :: true", () => {
+    expect(
+        valiend.isPhoneNumber("09121234567", { ignoreCountryCode: true })
+    ).toBe(true);
+});
+
 test("isPhoneNumber => '9121234567' :: false", () => {
     expect(valiend.isPhoneNumber("9121234567")).toBe(false);
 });
