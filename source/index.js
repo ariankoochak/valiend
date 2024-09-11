@@ -232,6 +232,12 @@ function isInRange(inputNumber, options = { minRange: 0, maxRange: 10 }) {
     return true;
 }
 
+/**
+ * With this method, you can check whether the username entered is correct and valid
+ * @param {string} inputUsername Username
+ * @param {Array} options.validChars An array of valid and usable characters in the username text
+ * @returns {boolean}
+ */
 function isUsername(inputUsername, options = {validChars : ['.','_']}) {
     try {
         if (typeof inputUsername !== "string" || inputUsername.length === 0) {
