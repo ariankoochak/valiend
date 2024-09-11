@@ -1,7 +1,6 @@
-const getRandomAlphabet = require('./utils/getRandomAlphabet');
-const getRandomCharacter = require('./utils/getRandomCharacter');
-const getRandomNumber = require('./utils/getRandomNumber')
-
+const getRandomAlphabet = require("./utils/getRandomAlphabet");
+const getRandomCharacter = require("./utils/getRandomCharacter");
+const getRandomNumber = require("./utils/getRandomNumber");
 
 /**
  * With this method, you can check whether your string is email or not
@@ -18,7 +17,7 @@ function isEmail(str) {
         const match = str.match(emailRegex);
         return match !== null ? match.input === match[0] : false;
     } catch (error) {
-        return false
+        return false;
     }
 }
 
@@ -42,7 +41,7 @@ function isPhoneNumber(str, options = { ignoreCountryCode: false }) {
             : str.match(phoneNumberDefaultRegex);
         return match !== null ? match.input === match[0] : false;
     } catch (error) {
-        return false
+        return false;
     }
 }
 
@@ -59,12 +58,23 @@ function passwordContains(str) {
         const isHaveCapitalLetter = /[A-Z]/.test(str);
         const isHaveSmallLetter = /[a-z]/.test(str);
         const isHaveNumber = /[0-9]/.test(str);
-        const isHaveCharacter = /(\@|\#|\!|\$|\%|\^|\&|\*|\(|\)|\_|\+|\-|\=|\\|\/|\>|\<|\?|\,|\.|\"|\'|\;|\:)/.test(str);
+        const isHaveCharacter =
+            /(\@|\#|\!|\$|\%|\^|\&|\*|\(|\)|\_|\+|\-|\=|\\|\/|\>|\<|\?|\,|\.|\"|\'|\;|\:)/.test(
+                str
+            );
         const passwordLength = str.length;
-        const capitalLetterCount = isHaveCapitalLetter === true ? str.match(/[A-Z]/g).length : 0;
-        const smallLetterCount = isHaveSmallLetter === true ? str.match(/[a-z]/g).length : 0;
-        const numberCount = isHaveNumber === true ? str.match(/[0-9]/g).length : 0;
-        const characterCount = isHaveCharacter === true ? str.match(/(\@|\#|\!|\$|\%|\^|\&|\*|\(|\)|\_|\+|\-|\=|\\|\/|\>|\<|\?|\,|\.|\"|\'|\;|\:)/g)?.length : 0;
+        const capitalLetterCount =
+            isHaveCapitalLetter === true ? str.match(/[A-Z]/g).length : 0;
+        const smallLetterCount =
+            isHaveSmallLetter === true ? str.match(/[a-z]/g).length : 0;
+        const numberCount =
+            isHaveNumber === true ? str.match(/[0-9]/g).length : 0;
+        const characterCount =
+            isHaveCharacter === true
+                ? str.match(
+                      /(\@|\#|\!|\$|\%|\^|\&|\*|\(|\)|\_|\+|\-|\=|\\|\/|\>|\<|\?|\,|\.|\"|\'|\;|\:)/g
+                  )?.length
+                : 0;
         return {
             isHaveCapitalLetter,
             isHaveSmallLetter,
@@ -77,7 +87,7 @@ function passwordContains(str) {
             characterCount,
         };
     } catch (error) {
-        return {}
+        return {};
     }
 }
 
@@ -86,7 +96,7 @@ function passwordContains(str) {
  * @param {string} str An email in the form of a string that you want to separate its parts
  * @return {object} An object containing Email information
  */
-function separateEmail(str){
+function separateEmail(str) {
     try {
         if (isEmail(str) === false) {
             return {};
@@ -96,10 +106,12 @@ function separateEmail(str){
             emailSymbol: "@",
             emailMailServer: str.split("@")[1].split(".")[0],
             emailMailServerUrl: str.split("@")[1],
-            emailDomain: str.split("@")[1].replace(str.split("@")[1].split(".")[0],''),
+            emailDomain: str
+                .split("@")[1]
+                .replace(str.split("@")[1].split(".")[0], ""),
         };
     } catch (error) {
-        return {}
+        return {};
     }
 }
 
@@ -108,32 +120,32 @@ function separateEmail(str){
  * @param {string} str The password you want to check the quality of
  * @return {number} A number from 0 to 100 that indicates the quality of the password
  */
-function passwordQuality(str){
+function passwordQuality(str) {
     try {
         if (typeof str !== "string" || str.length < 8) {
             return 0;
         }
         let passwordRate = 0;
         const contains = passwordContains(str);
-        if(contains.isHaveCapitalLetter === true){
-            passwordRate++
-        } 
+        if (contains.isHaveCapitalLetter === true) {
+            passwordRate++;
+        }
         if (contains.isHaveSmallLetter === true) {
             passwordRate++;
-        } 
+        }
         if (contains.isHaveCharacter === true) {
             passwordRate++;
-        } 
+        }
         if (contains.isHaveNumber === true) {
             passwordRate++;
-        } 
-        if(contains.passwordLength >= 8 && passwordRate === 4){
+        }
+        if (contains.passwordLength >= 8 && passwordRate === 4) {
             passwordRate++;
         }
         passwordRate *= 25;
         return passwordRate > 100 ? 100 : passwordRate;
     } catch (error) {
-        return 0
+        return 0;
     }
 }
 
@@ -142,75 +154,96 @@ function passwordQuality(str){
  * @param {number} passwordLength The length of the password you want to create must be between 8 and 64
  * @return {string} Random password
  */
-function passwordGenerator(passwordLength = 8){
+function passwordGenerator(passwordLength = 8) {
     try {
-        passwordLength = passwordLength < 8 ? 8 : passwordLength > 64 ? 64 : passwordLength;
+        passwordLength =
+            passwordLength < 8 ? 8 : passwordLength > 64 ? 64 : passwordLength;
         const passwordArr = [];
         passwordArr.push(getRandomNumber());
         passwordArr.push(getRandomNumber());
-        passwordArr.push(getRandomAlphabet('up'));
-        passwordArr.push(getRandomAlphabet('up'));
+        passwordArr.push(getRandomAlphabet("up"));
+        passwordArr.push(getRandomAlphabet("up"));
         passwordArr.push(getRandomAlphabet("lo"));
         passwordArr.push(getRandomAlphabet("lo"));
         passwordArr.push(getRandomCharacter());
         passwordArr.push(getRandomCharacter());
-        for(let i = 0;i < passwordLength - 8;i++){
-            let dice = getRandomNumber(1,3);
+        for (let i = 0; i < passwordLength - 8; i++) {
+            let dice = getRandomNumber(1, 3);
             switch (dice) {
                 case 1:
                     passwordArr.push(getRandomNumber());
                     break;
                 case 2:
-                    passwordArr.push(getRandomAlphabet('both'));
+                    passwordArr.push(getRandomAlphabet("both"));
                     break;
                 case 3:
                     passwordArr.push(getRandomCharacter());
                     break;
                 default:
-                    passwordArr.push(getRandomAlphabet('both'));
+                    passwordArr.push(getRandomAlphabet("both"));
                     break;
             }
         }
-        let password = '';
-        while(passwordArr.length > 0){
-            let index = getRandomNumber(0,passwordArr.length - 1);
+        let password = "";
+        while (passwordArr.length > 0) {
+            let index = getRandomNumber(0, passwordArr.length - 1);
             password += passwordArr[index];
-            passwordArr.splice(index,1);
+            passwordArr.splice(index, 1);
         }
-        return password
+        return password;
     } catch (error) {
-        return ''
+        return "";
     }
 }
 
 /**
  * With this method, you can check whether your variable is completely a numeric or not
- * @param {*} input 
+ * @param {*} input
  * @return {Boolean}
  */
-function isNumeric(input){
+function isNumeric(input) {
     let numberDataTypeInput = Number(input);
-    if(isNaN(numberDataTypeInput) || numberDataTypeInput === Infinity){
+    if (isNaN(numberDataTypeInput) || numberDataTypeInput === Infinity) {
         return false;
     }
-    return true
+    return true;
 }
 /**
- * 
- * @param {Number} inputNumber 
+ *
+ * @param {Number} inputNumber
  * @param {object} range have a min range and max range
  * @param {Number} options.minRange min range default => 0
  * @param {Number} options.maxRange max range default => 10
  * @returns {Boolean}
  */
-function isInRange(inputNumber,options = {minRange : 0,maxRange : 10}){    
-    if(typeof inputNumber !== 'number' || typeof options.minRange !== 'number' || typeof options.maxRange !== 'number' || isNaN(inputNumber) || isNaN(options.minRange) || isNaN(options.maxRange) || inputNumber < options.minRange || inputNumber > options.maxRange){
-        return false
+function isInRange(inputNumber, options = { minRange: 0, maxRange: 10 }) {
+    if (
+        typeof inputNumber !== "number" ||
+        typeof options.minRange !== "number" ||
+        typeof options.maxRange !== "number" ||
+        isNaN(inputNumber) ||
+        isNaN(options.minRange) ||
+        isNaN(options.maxRange) ||
+        inputNumber < options.minRange ||
+        inputNumber > options.maxRange
+    ) {
+        return false;
     }
     return true;
 }
 
-
+function isUsername(inputUsername, options = {validChars : ['.','_']}) {
+    try {
+        if (typeof inputUsername !== "string" || inputUsername.length === 0) {
+            return false;
+        }
+        const usernameRegex = new RegExp(`[${options.validChars.join("")}A-Za-z][A-Za-z0-9${options.validChars.join("")}]{3,36}$`);
+        const match = inputUsername.match(usernameRegex);
+        return match !== null ? match.input === match[0] : false;
+    } catch (error) {
+        return false;
+    }
+}
 
 module.exports = {
     isEmail,
@@ -221,4 +254,5 @@ module.exports = {
     passwordGenerator,
     isNumeric,
     isInRange,
+    isUsername,
 };
