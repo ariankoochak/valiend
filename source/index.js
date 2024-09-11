@@ -208,6 +208,7 @@ function isNumeric(input) {
     }
     return true;
 }
+
 /**
  *
  * @param {Number} inputNumber
@@ -251,6 +252,31 @@ function isUsername(inputUsername, options = {validChars : ['.','_']}) {
     }
 }
 
+/**
+ * With this method, you can check whether the password is safe or not
+ * @param {string} inputPassword 
+ * @param {boolean} options.strictMode Strict mode means that there must be at least 2 uppercase letters, 2 lowercase letters, 2 numbers, 2 characters in the password.
+ * @returns {boolean}
+ */
+function isSafePassword(inputPassword,options = {strictMode : false}){
+    try {
+        if(typeof inputPassword !== 'string' || inputPassword.length === 0){
+            return false
+        }
+        if(options.strictMode){
+            let passwordDatas = passwordContains(inputPassword);
+            if(passwordDatas.capitalLetterCount < 2 || passwordDatas.smallLetterCount < 2 || passwordDatas.numberCount < 2 || passwordDatas.characterCount < 2){
+                return false
+            }
+            return true
+        }
+        return passwordQuality(inputPassword) === 100 ? true : false
+    } catch (error) {
+        return false
+    }
+    
+}
+
 module.exports = {
     isEmail,
     isPhoneNumber,
@@ -261,4 +287,5 @@ module.exports = {
     isNumeric,
     isInRange,
     isUsername,
+    isSafePassword,
 };
