@@ -27,13 +27,19 @@ import {isEmail} from 'valiend'; //ES Module
 isEmail('aeromche@gmail.com');
 ```
 ## Features
+check validate email
 ```js
 valiend.isEmail('aeromche@gmail.com'); //true
-
+```
+check validate Phone number
+```js
 valiend.isPhoneNumber('+989121234567'); //true
 
 valiend.isPhoneNumber('09121234567',{ignoreCountryCode : true}); //true
-
+```
+Check the contents of the password
+‍‍‍
+```js
 valiend.passwordContains('Test4:@5tARian');
 /*{
   isHaveCapitalLetter: true,
@@ -46,7 +52,9 @@ valiend.passwordContains('Test4:@5tARian');
   numberCount: 2,
   characterCount: 2
 }*/
-
+```
+Separate different parts of the email
+```js
 valiend.separateEmail("aeromche@gmail.com");
 /*{
   emailUsername: 'aeromche',
@@ -55,9 +63,35 @@ valiend.separateEmail("aeromche@gmail.com");
   emailMailServerUrl: 'gmail.com',
   emailDomain: '.com'
 }*/
-
+```
+Create a random password
+```js‍‍‍‍
 valiend.passwordGenerator(12); //r_YXST46!a7e
-
+```
+Check password quality
+```js
 valiend.passwordQuality('Honh3443') //75
-
+```
+Check for numeric value
+```js
+valiend.isNumeric("1237653423") //true
+valiend.isNumeric("12376e423") //false
+```
+Checking whether the input value is within the range
+```js
+valiend.isInRange(32,{minRange : 18,maxRange : 90}) //true
+```
+Checking the validity of a user name in terms of the characters used
+```js
+valiend.isUsername("ariankoochak") //true
+valiend.isUsername("_.aeromche._",{validChars : ['@','_','$','#','.']}) //true
+valiend.isUsername("@eromche") //false
+valiend.isUsername("@eromche$_") //false
+```
+Checking the security and strength of the password
+```js
+valiend.isSafePassword("A5h#3232") //true
+valiend.isSafePassword("aadfdf") //false
+valiend.isSafePassword("SA23sa#$",{strictMode : true}) //true
+valiend.isSafePassword("A5h#3232",{strictMode : true}) //false
 ```
