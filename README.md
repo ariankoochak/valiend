@@ -1,5 +1,7 @@
-# Valiend
+![valiend](./Logo-text.png)
 
+[valiend.com](https://www.valiend.com)
+# Valiend
 Valiend is an open source package created to make checking email, password and phone number input easier. By using this package, you can check these inputs much more easily than before and develop different conditions in your project according to them.
 
 ## install

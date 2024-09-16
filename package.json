@@ -1,27 +1,27 @@
 {
-  "name": "valiend",
-  "version": "0.1.7",
-  "description": "a package for validate and check auth input",
-  "main": "./source/index.js",
-  "scripts": {
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ariankoochak/valiend.git"
-  },
-  "keywords": [
-    "auth",
-    "validate",
-    "valiend"
-  ],
-  "author": "Arian Koochak",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ariankoochak/valiend/issues"
-  },
-  "homepage": "https://github.com/ariankoochak/valiend#readme",
-  "devDependencies": {
-    "jest": "^29.7.0"
-  }
+    "name": "valiend",
+    "version": "0.1.8",
+    "description": "a package for validate and check auth input",
+    "main": "./source/index.js",
+    "scripts": {
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ariankoochak/valiend.git"
+    },
+    "keywords": [
+        "auth",
+        "validate",
+        "valiend"
+    ],
+    "author": "Arian Koochak",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/ariankoochak/valiend/issues"
+    },
+    "homepage": "https://valiend.com/",
+    "devDependencies": {
+        "jest": "^29.7.0"
+    }
 }
