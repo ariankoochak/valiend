@@ -61,3 +61,19 @@ test("valiendCheck", () => {
         errors: [{username : "username not valid"},{ password: "password is not safe" }],
     });
 });
+
+test("valiendCheck", () => {
+    inputs = {};
+    const schema = valiend.schemaMaker({
+        usernameSchema: {
+            validChars: ["_"],
+        },
+        passwordSchema: {
+            safePassword: true,
+        },
+    });
+    expect(valiend.valiendCheck(inputs, schema)).toEqual({
+        result: false,
+        errors: [],
+    });
+});

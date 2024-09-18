@@ -304,6 +304,12 @@ function valiendCheck(
     },
     options = {}
 ) {
+    if(Object.keys(inputs).length === 0){
+        return {
+            result : false,
+            errors : []
+        }
+    }
     inputs.email = inputs.email ?? null;
     inputs.password = inputs.password ?? null;
     inputs.phoneNumber = inputs.phoneNumber ?? null;
