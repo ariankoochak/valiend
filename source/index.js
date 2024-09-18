@@ -239,12 +239,16 @@ function isInRange(inputNumber, options = { minRange: 0, maxRange: 10 }) {
  * @param {Array} options.validChars An array of valid and usable characters in the username text
  * @returns {boolean}
  */
-function isUsername(inputUsername, options = {validChars : ['.','_']}) {
+function isUsername(inputUsername, options = { validChars: [".", "_"] }) {
     try {
         if (typeof inputUsername !== "string" || inputUsername.length === 0) {
             return false;
         }
-        const usernameRegex = new RegExp(`[${options.validChars.join("")}A-Za-z][A-Za-z0-9${options.validChars.join("")}]{3,36}$`);
+        const usernameRegex = new RegExp(
+            `[${options.validChars.join(
+                ""
+            )}A-Za-z][A-Za-z0-9${options.validChars.join("")}]{3,36}$`
+        );
         const match = inputUsername.match(usernameRegex);
         return match !== null ? match.input === match[0] : false;
     } catch (error) {
@@ -254,27 +258,141 @@ function isUsername(inputUsername, options = {validChars : ['.','_']}) {
 
 /**
  * With this method, you can check whether the password is safe or not
- * @param {string} inputPassword 
+ * @param {string} inputPassword
  * @param {boolean} options.strictMode Strict mode means that there must be at least 2 uppercase letters, 2 lowercase letters, 2 numbers, 2 characters in the password.
  * @returns {boolean}
  */
-function isSafePassword(inputPassword,options = {strictMode : false}){
+function isSafePassword(inputPassword, options = { strictMode: false }) {
     try {
-        if(typeof inputPassword !== 'string' || inputPassword.length === 0){
-            return false
+        if (typeof inputPassword !== "string" || inputPassword.length === 0) {
+            return false;
         }
-        if(options.strictMode){
+        if (options.strictMode) {
             let passwordDatas = passwordContains(inputPassword);
-            if(passwordDatas.capitalLetterCount < 2 || passwordDatas.smallLetterCount < 2 || passwordDatas.numberCount < 2 || passwordDatas.characterCount < 2){
-                return false
+            if (
+                passwordDatas.capitalLetterCount < 2 ||
+                passwordDatas.smallLetterCount < 2 ||
+                passwordDatas.numberCount < 2 ||
+                passwordDatas.characterCount < 2
+            ) {
+                return false;
             }
-            return true
+            return true;
         }
-        return passwordQuality(inputPassword) === 100 ? true : false
+        return passwordQuality(inputPassword) === 100 ? true : false;
     } catch (error) {
-        return false
+        return false;
     }
-    
+}
+
+/**
+ *
+ * @param {Object} inputs
+ * @param {keyof} inputs.email
+ * @param {keyof} inputs.username
+ * @param {keyof} inputs.password
+ * @param {keyof} inputs.phoneNumber
+ * @param {Object} options
+ * @returns {Object}
+ */
+function valiendCheck(
+    inputs = {
+        email,
+        password,
+        phoneNumber,
+        username,
+    },
+    options = {}
+) {
+    inputs.email = inputs.email ?? null;
+    inputs.password = inputs.password ?? null;
+    inputs.phoneNumber = inputs.phoneNumber ?? null;
+    inputs.username = inputs.username ?? null;
+    const { email, password, phoneNumber, username } = inputs;
+    let returnObj = {
+        result: true,
+        errors: [],
+    };
+    if (email !== null && isEmail(email) === false) {
+        returnObj.errors.push({ email: "email not valid" });
+    }
+    if (
+        username !== null &&
+        isUsername(username, {
+            validChars: options.usernameSchema.validChars,
+        }) === false
+    ) {
+        returnObj.errors.push({ username: "username not valid" });
+    }
+    if (password !== null) {
+        if (options.passwordSchema.safePassword) {
+            if (
+                options.passwordSchema.safePasswordStrictMode === true &&
+                isSafePassword(password, { strictMode: true }) === false
+            ) {
+                returnObj.errors.push({ password: "password is not safe" });
+            } else if (isSafePassword(password) === false) {
+                returnObj.errors.push({ password: "password is not safe" });
+            }
+        } else if (
+            passwordQuality(password) < options.passwordSchema.minPasswordScore
+        ) {
+            returnObj.errors.push({ password: "password is not safe" });
+        }
+    }
+    if (phoneNumber !== null) {
+        if (
+            options.phoneNumberSchema.ignoreCountryCode === true &&
+            isPhoneNumber(phoneNumber, { ignoreCountryCode: true }) === false
+        ) {
+            returnObj.errors.push({ phoneNumber: "phone number is not valid" });
+        } else if (isPhoneNumber(phoneNumber) === false) {
+            returnObj.errors.push({ phoneNumber: "phone number is not valid" });
+        }
+    }
+    if (returnObj.errors.length > 0) {
+        returnObj.result = false;
+    }
+    return returnObj;
+}
+
+function schemaMaker(
+    schema = {
+        usernameSchema: {},
+        passwordSchema: {},
+        phoneNumberSchema: {},
+    }
+) {
+    const defaultObj = {
+        usernameValidChars: ["_", "."],
+        passwordSafePasswordCheck: false,
+        passwordSafePasswordCheckStrictMode: false,
+        minPasswordScore: 50,
+        phoneNumberIgnoreCountryCode: false,
+    };
+    return {
+        usernameSchema: {
+            validChars:
+                schema.usernameSchema?.validChars ??
+                defaultObj.usernameValidChars,
+        },
+        passwordSchema: {
+            safePassword:
+                schema.passwordSchema?.safePassword ??
+                defaultObj.passwordSafePasswordCheck,
+            safePasswordStrictMode:
+                schema.passwordSchema?.safePasswordStrictMode ??
+                defaultObj.passwordSafePasswordCheckStrictMode,
+            minPasswordScore:
+                schema.passwordSchema?.minPasswordScore ??
+                defaultObj.minPasswordScore,
+        },
+        phoneNumberSchema: {
+            ignoreCountryCode:
+                schema.phoneNumberSchema?.ignoreCountryCode ??
+                defaultObj.phoneNumberIgnoreCountryCode,
+        },
+    };
 }
 
 module.exports = {
@@ -288,4 +406,6 @@ module.exports = {
     isInRange,
     isUsername,
     isSafePassword,
+    schemaMaker,
+    valiendCheck,
 };
