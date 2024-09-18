@@ -286,13 +286,13 @@ function isSafePassword(inputPassword, options = { strictMode: false }) {
 }
 
 /**
- *
- * @param {Object} inputs
- * @param {keyof} inputs.email
- * @param {keyof} inputs.username
- * @param {keyof} inputs.password
- * @param {keyof} inputs.phoneNumber
- * @param {Object} options
+ * This method can validate multiple data with the schema you give it
+ * @param {Object} inputs We pass the input data in the form of value of keys of this object
+ * @param {keyof} inputs.email To validate the email, put the email in this key 
+ * @param {keyof} inputs.username To validate the username, put the username in this key
+ * @param {keyof} inputs.password To validate the password, put the password in this key
+ * @param {keyof} inputs.phoneNumber To validate the phone number, put the phone number in this key
+ * @param {Object} options You put the same schema that you have to pass to this method here, create the schema using the schemaMaker() method.
  * @returns {Object}
  */
 function valiendCheck(
@@ -362,6 +362,14 @@ function valiendCheck(
     return returnObj;
 }
 
+/**
+ * This method creates a schema for the valiendCheck method to validate the data
+ * @param {Object} schema This object contains three main keys, usernameSchema, passwordSchema, phoneNumberSchema, each of these keys has an object value.
+ * @param {keyof} schema.usernameSchema {validChars : ["_", "."]}
+ * @param {keyof} schema.passwordSchema {safePassword : false , safePasswordStrictMode : false , minPasswordScore : 50}
+ * @param {keyof} schema.phoneNumberSchema {ignoreCountryCode : false}
+ * @returns {object}
+ */
 function schemaMaker(
     schema = {
         usernameSchema: {},
