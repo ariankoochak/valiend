@@ -409,6 +409,14 @@ function schemaMaker(
     };
 }
 
+function getOtpCode(options = {otpLength : 5}){
+    let otp = '';
+    for(let i = 0;i < options.otpLength;i++){
+        otp += getRandomNumber(0,9);
+    }
+    return otp;
+}
+
 module.exports = {
     isEmail,
     isPhoneNumber,
@@ -422,4 +430,5 @@ module.exports = {
     isSafePassword,
     schemaMaker,
     valiendCheck,
+    getOtpCode,
 };
