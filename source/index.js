@@ -17,6 +17,7 @@ function isEmail(str) {
         const match = str.match(emailRegex);
         return match !== null ? match.input === match[0] : false;
     } catch (error) {
+        console.log(error);
         return false;
     }
 }
@@ -41,6 +42,7 @@ function isPhoneNumber(str, options = { ignoreCountryCode: false }) {
             : str.match(phoneNumberDefaultRegex);
         return match !== null ? match.input === match[0] : false;
     } catch (error) {
+        console.log(error);
         return false;
     }
 }
@@ -87,6 +89,7 @@ function passwordContains(str) {
             characterCount,
         };
     } catch (error) {
+        console.log(error);
         return {};
     }
 }
@@ -111,6 +114,7 @@ function separateEmail(str) {
                 .replace(str.split("@")[1].split(".")[0], ""),
         };
     } catch (error) {
+        console.log(error);
         return {};
     }
 }
@@ -145,6 +149,7 @@ function passwordQuality(str) {
         passwordRate *= 25;
         return passwordRate > 100 ? 100 : passwordRate;
     } catch (error) {
+        console.log(error);
         return 0;
     }
 }
@@ -192,6 +197,7 @@ function passwordGenerator(passwordLength = 8) {
         }
         return password;
     } catch (error) {
+        console.log(error);
         return "";
     }
 }
@@ -202,11 +208,16 @@ function passwordGenerator(passwordLength = 8) {
  * @return {Boolean}
  */
 function isNumeric(input) {
-    let numberDataTypeInput = Number(input);
-    if (isNaN(numberDataTypeInput) || numberDataTypeInput === Infinity) {
+    try {
+        let numberDataTypeInput = Number(input);
+        if (isNaN(numberDataTypeInput) || numberDataTypeInput === Infinity) {
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.log(error);
         return false;
     }
-    return true;
 }
 
 /**
@@ -218,19 +229,24 @@ function isNumeric(input) {
  * @returns {Boolean}
  */
 function isInRange(inputNumber, options = { minRange: 0, maxRange: 10 }) {
-    if (
-        typeof inputNumber !== "number" ||
-        typeof options.minRange !== "number" ||
-        typeof options.maxRange !== "number" ||
-        isNaN(inputNumber) ||
-        isNaN(options.minRange) ||
-        isNaN(options.maxRange) ||
-        inputNumber < options.minRange ||
-        inputNumber > options.maxRange
-    ) {
+    try {
+        if (
+            typeof inputNumber !== "number" ||
+            typeof options.minRange !== "number" ||
+            typeof options.maxRange !== "number" ||
+            isNaN(inputNumber) ||
+            isNaN(options.minRange) ||
+            isNaN(options.maxRange) ||
+            inputNumber < options.minRange ||
+            inputNumber > options.maxRange
+        ) {
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.log(error);
         return false;
     }
-    return true;
 }
 
 /**
@@ -252,6 +268,7 @@ function isUsername(inputUsername, options = { validChars: [".", "_"] }) {
         const match = inputUsername.match(usernameRegex);
         return match !== null ? match.input === match[0] : false;
     } catch (error) {
+        console.log(error);
         return false;
     }
 }
@@ -281,6 +298,7 @@ function isSafePassword(inputPassword, options = { strictMode: false }) {
         }
         return passwordQuality(inputPassword) === 100 ? true : false;
     } catch (error) {
+        console.log(error);
         return false;
     }
 }
@@ -288,7 +306,7 @@ function isSafePassword(inputPassword, options = { strictMode: false }) {
 /**
  * This method can validate multiple data with the schema you give it
  * @param {Object} inputs We pass the input data in the form of value of keys of this object
- * @param {keyof} inputs.email To validate the email, put the email in this key 
+ * @param {keyof} inputs.email To validate the email, put the email in this key
  * @param {keyof} inputs.username To validate the username, put the username in this key
  * @param {keyof} inputs.password To validate the password, put the password in this key
  * @param {keyof} inputs.phoneNumber To validate the phone number, put the phone number in this key
@@ -304,62 +322,75 @@ function valiendCheck(
     },
     options = {}
 ) {
-    if(Object.keys(inputs).length === 0){
-        return {
-            result : false,
-            errors : []
+    try {
+        if (Object.keys(inputs).length === 0) {
+            return {
+                result: false,
+                errors: [],
+            };
         }
-    }
-    inputs.email = inputs.email ?? null;
-    inputs.password = inputs.password ?? null;
-    inputs.phoneNumber = inputs.phoneNumber ?? null;
-    inputs.username = inputs.username ?? null;
-    const { email, password, phoneNumber, username } = inputs;
-    let returnObj = {
-        result: true,
-        errors: [],
-    };
-    if (email !== null && isEmail(email) === false) {
-        returnObj.errors.push({ email: "email not valid" });
-    }
-    if (
-        username !== null &&
-        isUsername(username, {
-            validChars: options.usernameSchema.validChars,
-        }) === false
-    ) {
-        returnObj.errors.push({ username: "username not valid" });
-    }
-    if (password !== null) {
-        if (options.passwordSchema.safePassword) {
-            if (
-                options.passwordSchema.safePasswordStrictMode === true &&
-                isSafePassword(password, { strictMode: true }) === false
+        inputs.email = inputs.email ?? null;
+        inputs.password = inputs.password ?? null;
+        inputs.phoneNumber = inputs.phoneNumber ?? null;
+        inputs.username = inputs.username ?? null;
+        const { email, password, phoneNumber, username } = inputs;
+        let returnObj = {
+            result: true,
+            errors: [],
+        };
+        if (email !== null && isEmail(email) === false) {
+            returnObj.errors.push({ email: "email not valid" });
+        }
+        if (
+            username !== null &&
+            isUsername(username, {
+                validChars: options.usernameSchema.validChars,
+            }) === false
+        ) {
+            returnObj.errors.push({ username: "username not valid" });
+        }
+        if (password !== null) {
+            if (options.passwordSchema.safePassword) {
+                if (
+                    options.passwordSchema.safePasswordStrictMode === true &&
+                    isSafePassword(password, { strictMode: true }) === false
+                ) {
+                    returnObj.errors.push({ password: "password is not safe" });
+                } else if (isSafePassword(password) === false) {
+                    returnObj.errors.push({ password: "password is not safe" });
+                }
+            } else if (
+                passwordQuality(password) <
+                options.passwordSchema.minPasswordScore
             ) {
                 returnObj.errors.push({ password: "password is not safe" });
-            } else if (isSafePassword(password) === false) {
-                returnObj.errors.push({ password: "password is not safe" });
             }
-        } else if (
-            passwordQuality(password) < options.passwordSchema.minPasswordScore
-        ) {
-            returnObj.errors.push({ password: "password is not safe" });
         }
-    }
-    if (phoneNumber !== null) {
-        if (
-            options.phoneNumberSchema.ignoreCountryCode === true &&
-            isPhoneNumber(phoneNumber, { ignoreCountryCode: true }) === false
-        ) {
-            returnObj.errors.push({ phoneNumber: "phone number is not valid" });
-        } else if (isPhoneNumber(phoneNumber) === false) {
-            returnObj.errors.push({ phoneNumber: "phone number is not valid" });
+        if (phoneNumber !== null) {
+            if (
+                options.phoneNumberSchema.ignoreCountryCode === true &&
+                isPhoneNumber(phoneNumber, { ignoreCountryCode: true }) ===
+                    false
+            ) {
+                returnObj.errors.push({
+                    phoneNumber: "phone number is not valid",
+                });
+            } else if (isPhoneNumber(phoneNumber) === false) {
+                returnObj.errors.push({
+                    phoneNumber: "phone number is not valid",
+                });
+            }
         }
+        if (returnObj.errors.length > 0) {
+            returnObj.result = false;
+        }
+        return returnObj;
+    } catch (error) {
+        return {
+            result: false,
+            errors: [error],
+        };
     }
-    if (returnObj.errors.length > 0) {
-        returnObj.result = false;
-    }
-    return returnObj;
 }
 
 /**
@@ -377,50 +408,58 @@ function schemaMaker(
         phoneNumberSchema: {},
     }
 ) {
-    const defaultObj = {
-        usernameValidChars: ["_", "."],
-        passwordSafePasswordCheck: false,
-        passwordSafePasswordCheckStrictMode: false,
-        minPasswordScore: 50,
-        phoneNumberIgnoreCountryCode: false,
-    };
-    return {
-        usernameSchema: {
-            validChars:
-                schema.usernameSchema?.validChars ??
-                defaultObj.usernameValidChars,
-        },
-        passwordSchema: {
-            safePassword:
-                schema.passwordSchema?.safePassword ??
-                defaultObj.passwordSafePasswordCheck,
-            safePasswordStrictMode:
-                schema.passwordSchema?.safePasswordStrictMode ??
-                defaultObj.passwordSafePasswordCheckStrictMode,
-            minPasswordScore:
-                schema.passwordSchema?.minPasswordScore ??
-                defaultObj.minPasswordScore,
-        },
-        phoneNumberSchema: {
-            ignoreCountryCode:
-                schema.phoneNumberSchema?.ignoreCountryCode ??
-                defaultObj.phoneNumberIgnoreCountryCode,
-        },
-    };
+    try {
+        const defaultObj = {
+            usernameValidChars: ["_", "."],
+            passwordSafePasswordCheck: false,
+            passwordSafePasswordCheckStrictMode: false,
+            minPasswordScore: 50,
+            phoneNumberIgnoreCountryCode: false,
+        };
+        return {
+            usernameSchema: {
+                validChars:
+                    schema.usernameSchema?.validChars ??
+                    defaultObj.usernameValidChars,
+            },
+            passwordSchema: {
+                safePassword:
+                    schema.passwordSchema?.safePassword ??
+                    defaultObj.passwordSafePasswordCheck,
+                safePasswordStrictMode:
+                    schema.passwordSchema?.safePasswordStrictMode ??
+                    defaultObj.passwordSafePasswordCheckStrictMode,
+                minPasswordScore:
+                    schema.passwordSchema?.minPasswordScore ??
+                    defaultObj.minPasswordScore,
+            },
+            phoneNumberSchema: {
+                ignoreCountryCode:
+                    schema.phoneNumberSchema?.ignoreCountryCode ??
+                    defaultObj.phoneNumberIgnoreCountryCode,
+            },
+        };
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
 }
-
 
 /**
  * Otp (one time password) are used to verify mobile number or email. You can receive a numeric password with the desired number of digits from this method and send it to your user to confirm his mobile number or email.
  * @param {Number} options.otpLength You can enter the length of the otp you want to receive. By default, its value is 5
  * @returns {Number} Returns a number with the number of digits specified in the input
  */
-function getOtpCode(options = {otpLength : 5}){
-    let otp = '';
-    for(let i = 0;i < options.otpLength;i++){
-        otp += getRandomNumber(0,9);
+function getOtpCode(options = { otpLength: 5 }) {
+    try {
+        let otp = "";
+        for (let i = 0; i < options.otpLength; i++) {
+            otp += getRandomNumber(0, 9);
+        }
+        return otp;
+    } catch (error) {
+        return error
     }
-    return otp;
 }
 
 module.exports = {
