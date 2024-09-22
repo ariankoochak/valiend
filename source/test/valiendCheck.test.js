@@ -1,7 +1,7 @@
 const valiend = require("../index");
 
 test("valiendCheck", () => {
-    inputs = {
+    const inputs = {
         username : 'ariankoc',
         password : 'aeromch@e3',
         email : 'arian.koochak@protonmail.com',
@@ -21,7 +21,7 @@ test("valiendCheck", () => {
 });
 
 test("valiendCheck", () => {
-    inputs = {
+    const inputs = {
         username: "ariankoc",
         password: "aeromch@e3",
         email: "arian.koochak@protonmail.com",
@@ -43,7 +43,7 @@ test("valiendCheck", () => {
 });
 
 test("valiendCheck", () => {
-    inputs = {
+    const inputs = {
         username: "@riankoc",
         password: "aeromch@e3",
         email: "arian.koochak@protonmail.com",
@@ -63,7 +63,7 @@ test("valiendCheck", () => {
 });
 
 test("valiendCheck", () => {
-    inputs = {};
+    const inputs = {};
     const schema = valiend.schemaMaker({
         usernameSchema: {
             validChars: ["_"],
