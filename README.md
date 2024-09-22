@@ -66,10 +66,12 @@ valiend.separateEmail("aeromche@gmail.com");
   emailDomain: '.com'
 }*/
 ```
+
 Create a random password
-```js‍‍‍‍
+```js
 valiend.passwordGenerator(12); //r_YXST46!a7e
 ```
+
 Check password quality
 ```js
 valiend.passwordQuality('Honh3443') //75
@@ -96,4 +98,56 @@ valiend.isSafePassword("A5h#3232") //true
 valiend.isSafePassword("aadfdf") //false
 valiend.isSafePassword("SA23sa#$",{strictMode : true}) //true
 valiend.isSafePassword("A5h#3232",{strictMode : true}) //false
+```
+
+Creating a random otp (one time password) numerically
+```js
+valiend.getOtpCode() //85943
+valiend.getOtpCode({otpLength : 7}) //0856473
+```
+
+Validate all data together
+```js
+  inputs = {
+      username: "@riankoc",
+      password: "aeromch@e3",
+      email: "arian.koochak@protonmail.com",
+  };
+  const schema = valiend.schemaMaker({
+      usernameSchema: {
+          validChars: ["_"],
+      },
+      passwordSchema: {
+          safePassword: true,
+      },
+  });
+  valiend.valiendCheck(inputs, schema)
+  /*
+    {
+        result: false,
+        errors: [{username : "username not valid"},{ password: "password is not safe" }],
+    }
+  */
+```Validate all data together
+```js
+  inputs = {
+      username: "@riankoc",
+      password: "aeromch@e3",
+      email: "arian.koochak@protonmail.com",
+  };
+  const schema = valiend.schemaMaker({
+      usernameSchema: {
+          validChars: ["_"],
+      },
+      passwordSchema: {
+          safePassword: true,
+      },
+  });
+  valiend.valiendCheck(inputs, schema)
+  /*
+    {
+        result: false,
+        errors: [{username : "username not valid"},{ password: "password is not safe" }],
+    }
+  */
 ```
