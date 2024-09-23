@@ -1,7 +1,7 @@
 const getRandomAlphabet = require("./utils/getRandomAlphabet");
 const getRandomCharacter = require("./utils/getRandomCharacter");
 const getRandomNumber = require("./utils/getRandomNumber");
-
+const checkRepetitionChar = require('./utils/checkRepetitionChar')
 /**
  * With this method, you can check whether your string is email or not
  * @param {string} str Write the string you want to check whether it is an email or not in this parameter and pass it to the function
@@ -129,25 +129,54 @@ function passwordQuality(str) {
         if (typeof str !== "string" || str.length < 8) {
             return 0;
         }
-        let passwordRate = 0;
+        let passwordScore = 0;
         const contains = passwordContains(str);
-        if (contains.isHaveCapitalLetter === true) {
-            passwordRate++;
+        const {isHaveCapitalLetter,isHaveSmallLetter,isHaveNumber,isHaveCharacter,passwordLength,capitalLetterCount,smallLetterCount,numberCount,characterCount} = contains;
+
+        passwordScore += passwordLength * 4;
+        passwordScore += checkRepetitionChar(1, str).length - str.length;
+        passwordScore += checkRepetitionChar(2, str).length - str.length;
+        passwordScore += checkRepetitionChar(3, str).length - str.length;
+        passwordScore += checkRepetitionChar(4, str).length - str.length;
+
+        if(numberCount === 3){
+            passwordScore += 5;
         }
-        if (contains.isHaveSmallLetter === true) {
-            passwordRate++;
+
+        if(characterCount >= 2){
+            passwordScore += 5;
         }
-        if (contains.isHaveCharacter === true) {
-            passwordRate++;
+
+        if(isHaveCapitalLetter === true && isHaveSmallLetter === true){
+            passwordScore += 10;
         }
-        if (contains.isHaveNumber === true) {
-            passwordRate++;
+
+        if (isHaveNumber === true && isHaveCapitalLetter === true && isHaveSmallLetter === true) {
+            passwordScore += 15;
         }
-        if (contains.passwordLength >= 8 && passwordRate === 4) {
-            passwordRate++;
+
+        if(isHaveNumber === true && isHaveCharacter === true){
+            passwordScore += 15;
         }
-        passwordRate *= 25;
-        return passwordRate > 100 ? 100 : passwordRate;
+
+        if (isHaveCharacter === true && isHaveCapitalLetter === true && isHaveSmallLetter === true) {
+            passwordScore += 15;
+        }
+
+        if ((isHaveCapitalLetter === true && isHaveSmallLetter === true && isHaveNumber === false && isHaveCharacter === false) || (isHaveCapitalLetter === false && isHaveSmallLetter === false && isHaveNumber === true && isHaveCharacter === false)) {
+            passwordScore -= 10;
+        }
+
+
+        if(passwordScore > 100){
+            passwordScore = 100;
+        }
+        else if(passwordScore < 0){
+            passwordScore = 0
+        }
+
+        return passwordScore
+
     } catch (error) {
         console.log(error);
         return 0;
@@ -296,7 +325,7 @@ function isSafePassword(inputPassword, options = { strictMode: false }) {
             }
             return true;
         }
-        return passwordQuality(inputPassword) === 100 ? true : false;
+        return passwordQuality(inputPassword) >= 80 ? true : false;
     } catch (error) {
         console.log(error);
         return false;
