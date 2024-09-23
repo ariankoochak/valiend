@@ -27,7 +27,6 @@ function isEmail(str) {
  * With this method, you can check whether your string is phone number or not
  * @param {string} str Write the string you want to check whether it is an phone number or not in this parameter and pass it to the function
  * @param {object} options phone number checking options
- * @param {boolean} options.ignoreCountryCode The entry should be checked without country code
  * @param {[string]} options.regions Array of regions for check mobile number on regions
  * @return {boolean} If the input string is an phone number, it returns true and if the input string is not an phone number, it returns false.
  */
@@ -461,7 +460,7 @@ function valiendCheck(
  * @param {Object} schema This object contains three main keys, usernameSchema, passwordSchema, phoneNumberSchema, each of these keys has an object value.
  * @param {keyof} schema.usernameSchema {validChars : ["_", "."]}
  * @param {keyof} schema.passwordSchema {safePassword : false , safePasswordStrictMode : false , minPasswordScore : 50}
- * @param {keyof} schema.phoneNumberSchema {ignoreCountryCode : false}
+ * @param {keyof} schema.phoneNumberSchema {regions : []}
  * @returns {object}
  */
 function schemaMaker(
@@ -477,7 +476,6 @@ function schemaMaker(
             passwordSafePasswordCheck: false,
             passwordSafePasswordCheckStrictMode: false,
             minPasswordScore: 50,
-            phoneNumberIgnoreCountryCode: false,
             phoneNumberRegions : [],
         };
         return {
@@ -498,9 +496,6 @@ function schemaMaker(
                     defaultObj.minPasswordScore,
             },
             phoneNumberSchema: {
-                ignoreCountryCode:
-                    schema.phoneNumberSchema?.ignoreCountryCode ??
-                    defaultObj.phoneNumberIgnoreCountryCode,
                 regions:
                     schema.phoneNumberSchema?.regions ??
                     defaultObj.phoneNumberRegions,
