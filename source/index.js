@@ -1,8 +1,9 @@
 const getRandomAlphabet = require("./utils/getRandomAlphabet");
 const getRandomCharacter = require("./utils/getRandomCharacter");
 const getRandomNumber = require("./utils/getRandomNumber");
-const checkRepetitionChar = require('./utils/checkRepetitionChar');
-const regionMobileRegexObject = require('./utils/regionMobileRegex');
+const checkRepetitionChar = require("./utils/checkRepetitionChar");
+const regionMobileRegexObject = require("./utils/regionMobileRegex");
+const checkRegex = require("./utils/checkRegex");
 /**
  * With this method, you can check whether your string is email or not
  * @param {string} str Write the string you want to check whether it is an email or not in this parameter and pass it to the function
@@ -31,30 +32,28 @@ function isEmail(str) {
  * @param {[string]} options.regions Array of regions for check mobile number on regions
  * @return {boolean} If the input string is an phone number, it returns true and if the input string is not an phone number, it returns false.
  */
-function isPhoneNumber(str, options = { ignoreCountryCode: false , regions : []}) {
+function isPhoneNumber(str, options = { regions: [] }) {
     try {
         if (typeof str !== "string" || str.length === 0) {
             return false;
         }
-        if (options.regions?.length > 0) {            
+        if (options.regions?.length > 0) {
             for (const region of options.regions) {
                 let regexOfRegion = regionMobileRegexObject[region];
-                if (
-                    regexOfRegion !== undefined &&
-                    str.match(regexOfRegion) !== null
-                ) {
+                if (regexOfRegion !== undefined && checkRegex(str,regexOfRegion)) {
                     return true;
                 }
             }
             return false;
-        } else {
-            const phoneNumberDefaultRegex =
-                /(\+(9[976]\d|8[987530]\d|6[987]\d|5[90]\d|42\d|3[875]\d|2[98654321]\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1)\d{6,14}$)/;
-            const phoneNumberIgnoreCountryCodeRegex = /[0-9]{4,12}/;
-            const match = options.ignoreCountryCode
-                ? str.match(phoneNumberIgnoreCountryCodeRegex)
-                : str.match(phoneNumberDefaultRegex);
-            return match !== null ? match.input === match[0] : false;
+        } 
+        else {
+            for (const region in regionMobileRegexObject) {
+                let regexOfRegion = regionMobileRegexObject[region];
+                if ( regexOfRegion !== undefined && checkRegex(str, regexOfRegion)) {
+                    return true;
+                }
+            }
+            return false;
         }
     } catch (error) {
         console.log(error);
@@ -146,7 +145,17 @@ function passwordQuality(str) {
         }
         let passwordScore = 0;
         const contains = passwordContains(str);
-        const {isHaveCapitalLetter,isHaveSmallLetter,isHaveNumber,isHaveCharacter,passwordLength,capitalLetterCount,smallLetterCount,numberCount,characterCount} = contains;
+        const {
+            isHaveCapitalLetter,
+            isHaveSmallLetter,
+            isHaveNumber,
+            isHaveCharacter,
+            passwordLength,
+            capitalLetterCount,
+            smallLetterCount,
+            numberCount,
+            characterCount,
+        } = contains;
 
         passwordScore += passwordLength * 4;
         passwordScore += checkRepetitionChar(1, str).length - str.length;
@@ -154,44 +163,58 @@ function passwordQuality(str) {
         passwordScore += checkRepetitionChar(3, str).length - str.length;
         passwordScore += checkRepetitionChar(4, str).length - str.length;
 
-        if(numberCount === 3){
+        if (numberCount === 3) {
             passwordScore += 5;
         }
 
-        if(characterCount >= 2){
+        if (characterCount >= 2) {
             passwordScore += 5;
         }
 
-        if(isHaveCapitalLetter === true && isHaveSmallLetter === true){
+        if (isHaveCapitalLetter === true && isHaveSmallLetter === true) {
             passwordScore += 10;
         }
 
-        if (isHaveNumber === true && isHaveCapitalLetter === true && isHaveSmallLetter === true) {
+        if (
+            isHaveNumber === true &&
+            isHaveCapitalLetter === true &&
+            isHaveSmallLetter === true
+        ) {
             passwordScore += 15;
         }
 
-        if(isHaveNumber === true && isHaveCharacter === true){
+        if (isHaveNumber === true && isHaveCharacter === true) {
             passwordScore += 15;
         }
 
-        if (isHaveCharacter === true && isHaveCapitalLetter === true && isHaveSmallLetter === true) {
+        if (
+            isHaveCharacter === true &&
+            isHaveCapitalLetter === true &&
+            isHaveSmallLetter === true
+        ) {
             passwordScore += 15;
         }
 
-        if ((isHaveCapitalLetter === true && isHaveSmallLetter === true && isHaveNumber === false && isHaveCharacter === false) || (isHaveCapitalLetter === false && isHaveSmallLetter === false && isHaveNumber === true && isHaveCharacter === false)) {
+        if (
+            (isHaveCapitalLetter === true &&
+                isHaveSmallLetter === true &&
+                isHaveNumber === false &&
+                isHaveCharacter === false) ||
+            (isHaveCapitalLetter === false &&
+                isHaveSmallLetter === false &&
+                isHaveNumber === true &&
+                isHaveCharacter === false)
+        ) {
             passwordScore -= 10;
         }
 
-
-        if(passwordScore > 100){
+        if (passwordScore > 100) {
             passwordScore = 100;
-        }
-        else if(passwordScore < 0){
-            passwordScore = 0
+        } else if (passwordScore < 0) {
+            passwordScore = 0;
         }
 
-        return passwordScore
-
+        return passwordScore;
     } catch (error) {
         console.log(error);
         return 0;
@@ -502,7 +525,7 @@ function getOtpCode(options = { otpLength: 5 }) {
         }
         return otp;
     } catch (error) {
-        return error
+        return error;
     }
 }
 
