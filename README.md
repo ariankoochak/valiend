@@ -37,7 +37,7 @@ check validate Phone number
 ```js
 valiend.isPhoneNumber('+989121234567'); //true
 
-valiend.isPhoneNumber('09121234567',{ignoreCountryCode : true}); //true
+valiend.isPhoneNumber('09121234567',{regions : ['fa-IR']}); //true
 ```
 Check the contents of the password
 ‍‍‍
