@@ -33,6 +33,11 @@ test("isPhoneNumber => '+989121234567' :: true", () => {
 test("isPhoneNumber => '+989121234567' :: true", () => {
     expect(valiend.isPhoneNumber("+989121234567", { regions: ["en-US"] })).toBe(false);
 });
-test("isPhoneNumber => '+989121234567' :: true", () => {
+
+test("isPhoneNumber => '09121234567' :: true", () => {
     expect(valiend.isPhoneNumber("09121234567", { regions: ["en-US","fa-IR"] })).toBe(true);
+});
+
+test("isPhoneNumber => '09121234567' :: true", () => {
+    expect(valiend.isPhoneNumber("09121234567", { regions: ["foobar", "fa-IR"] })).toBe(true);
 });
