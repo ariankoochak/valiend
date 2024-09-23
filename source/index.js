@@ -433,15 +433,12 @@ function valiendCheck(
             }
         }
         if (phoneNumber !== null) {
-            if (
-                options.phoneNumberSchema.ignoreCountryCode === true &&
-                isPhoneNumber(phoneNumber, { ignoreCountryCode: true }) ===
-                    false
-            ) {
+            if(options.phoneNumberSchema.regions.length > 0 && isPhoneNumber(phoneNumber,{regions : options.phoneNumberSchema.regions}) === false){
                 returnObj.errors.push({
                     phoneNumber: "phone number is not valid",
                 });
-            } else if (isPhoneNumber(phoneNumber) === false) {
+            } 
+            else if (isPhoneNumber(phoneNumber) === false) {
                 returnObj.errors.push({
                     phoneNumber: "phone number is not valid",
                 });
@@ -481,6 +478,7 @@ function schemaMaker(
             passwordSafePasswordCheckStrictMode: false,
             minPasswordScore: 50,
             phoneNumberIgnoreCountryCode: false,
+            phoneNumberRegions : [],
         };
         return {
             usernameSchema: {
@@ -503,6 +501,9 @@ function schemaMaker(
                 ignoreCountryCode:
                     schema.phoneNumberSchema?.ignoreCountryCode ??
                     defaultObj.phoneNumberIgnoreCountryCode,
+                regions:
+                    schema.phoneNumberSchema?.regions ??
+                    defaultObj.phoneNumberRegions,
             },
         };
     } catch (error) {
