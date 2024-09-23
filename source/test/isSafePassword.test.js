@@ -17,7 +17,7 @@ test("isSafePassword => 'SA23sa#$' :: true", () => {
 });
 
 test("isSafePassword => 'SA23sa#$' :: true", () => {
-    expect(valiend.isSafePassword("SA23sa#$",{strictMode : true})).toBe(true);
+    expect(valiend.isSafePassword("Al2#B3k@P-e5",{strictMode : true})).toBe(true);
 });
 
 test("isSafePassword => 'A5h#3232' :: false", () => {

@@ -305,7 +305,7 @@ function isUsername(inputUsername, options = { validChars: [".", "_"] }) {
 /**
  * With this method, you can check whether the password is safe or not
  * @param {string} inputPassword
- * @param {boolean} options.strictMode Strict mode means that there must be at least 2 uppercase letters, 2 lowercase letters, 2 numbers, 2 characters in the password.
+ * @param {boolean} options.strictMode Strict mode means that there must be at least 3 uppercase letters, 3 lowercase letters, 3 numbers, 3 characters in the password.
  * @returns {boolean}
  */
 function isSafePassword(inputPassword, options = { strictMode: false }) {
@@ -316,10 +316,10 @@ function isSafePassword(inputPassword, options = { strictMode: false }) {
         if (options.strictMode) {
             let passwordDatas = passwordContains(inputPassword);
             if (
-                passwordDatas.capitalLetterCount < 2 ||
-                passwordDatas.smallLetterCount < 2 ||
-                passwordDatas.numberCount < 2 ||
-                passwordDatas.characterCount < 2
+                passwordDatas.capitalLetterCount < 3 ||
+                passwordDatas.smallLetterCount < 3 ||
+                passwordDatas.numberCount < 3 ||
+                passwordDatas.characterCount < 3
             ) {
                 return false;
             }
