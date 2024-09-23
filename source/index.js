@@ -1,7 +1,8 @@
 const getRandomAlphabet = require("./utils/getRandomAlphabet");
 const getRandomCharacter = require("./utils/getRandomCharacter");
 const getRandomNumber = require("./utils/getRandomNumber");
-const checkRepetitionChar = require('./utils/checkRepetitionChar')
+const checkRepetitionChar = require('./utils/checkRepetitionChar');
+const regionMobileRegexObject = require('./utils/regionMobileRegex');
 /**
  * With this method, you can check whether your string is email or not
  * @param {string} str Write the string you want to check whether it is an email or not in this parameter and pass it to the function
@@ -27,20 +28,34 @@ function isEmail(str) {
  * @param {string} str Write the string you want to check whether it is an phone number or not in this parameter and pass it to the function
  * @param {object} options phone number checking options
  * @param {boolean} options.ignoreCountryCode The entry should be checked without country code
+ * @param {[string]} options.regions Array of regions for check mobile number on regions
  * @return {boolean} If the input string is an phone number, it returns true and if the input string is not an phone number, it returns false.
  */
-function isPhoneNumber(str, options = { ignoreCountryCode: false }) {
+function isPhoneNumber(str, options = { ignoreCountryCode: false , regions : []}) {
     try {
         if (typeof str !== "string" || str.length === 0) {
             return false;
         }
-        const phoneNumberDefaultRegex =
-            /(\+(9[976]\d|8[987530]\d|6[987]\d|5[90]\d|42\d|3[875]\d|2[98654321]\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1)\d{6,14}$)/;
-        const phoneNumberIgnoreCountryCodeRegex = /[0-9]{4,12}/;
-        const match = options.ignoreCountryCode
-            ? str.match(phoneNumberIgnoreCountryCodeRegex)
-            : str.match(phoneNumberDefaultRegex);
-        return match !== null ? match.input === match[0] : false;
+        if (options.regions?.length > 0) {            
+            for (const region of options.regions) {
+                let regexOfRegion = regionMobileRegexObject[region];
+                if (
+                    regexOfRegion !== undefined &&
+                    str.match(regexOfRegion) !== null
+                ) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            const phoneNumberDefaultRegex =
+                /(\+(9[976]\d|8[987530]\d|6[987]\d|5[90]\d|42\d|3[875]\d|2[98654321]\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1)\d{6,14}$)/;
+            const phoneNumberIgnoreCountryCodeRegex = /[0-9]{4,12}/;
+            const match = options.ignoreCountryCode
+                ? str.match(phoneNumberIgnoreCountryCodeRegex)
+                : str.match(phoneNumberDefaultRegex);
+            return match !== null ? match.input === match[0] : false;
+        }
     } catch (error) {
         console.log(error);
         return false;
