@@ -1,5 +1,5 @@
 /**
- *
+ * In this method, you can check whether your numerical input is in the range you want or not
  * @param {Number} inputNumber
  * @param {object} range have a min range and max range
  * @param {Number} options.minRange min range default => 0
