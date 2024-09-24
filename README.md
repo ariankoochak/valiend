@@ -107,6 +107,7 @@ valiend.getOtpCode({otpLength : 7}) //0856473
 ```
 
 Validate all data together
+
 ```js
   inputs = {
       username: "@riankoc",
@@ -128,7 +129,7 @@ Validate all data together
         errors: [{username : "username not valid"},{ password: "password is not safe" }],
     }
   */
-```Validate all data together
+```
 ```js
   inputs = {
       username: "@riankoc",
