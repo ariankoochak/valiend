@@ -23,3 +23,9 @@ test("isSafePassword => 'SA23sa#$' :: true", () => {
 test("isSafePassword => 'A5h#3232' :: false", () => {
     expect(valiend.isSafePassword("A5h#3232",{strictMode : true})).toBe(false);
 });
+
+test("isSafePassword => 'A5h#3232' :: false", () => {
+    expect(valiend.isSafePassword("iYGi(<2w>06)", { strictMode: true })).toBe(
+        true
+    );
+});

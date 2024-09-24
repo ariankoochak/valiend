@@ -12,17 +12,19 @@ function isSafePassword(inputPassword, options = { strictMode: false }) {
         if (typeof inputPassword !== "string" || inputPassword.length === 0) {
             return false;
         }
-        if (options.strictMode) {
+        if (options.strictMode === true) {
             let passwordDatas = passwordContains(inputPassword);
             if (
-                passwordDatas.capitalLetterCount < 3 ||
-                passwordDatas.smallLetterCount < 3 ||
-                passwordDatas.numberCount < 3 ||
-                passwordDatas.characterCount < 3
+                (passwordDatas.capitalLetterCount > 3 &&
+                passwordDatas.smallLetterCount > 3 &&
+                passwordDatas.numberCount > 3 &&
+                passwordDatas.characterCount > 3) || (
+                    passwordQuality(inputPassword) === 100
+                )
             ) {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
         return passwordQuality(inputPassword) >= 80 ? true : false;
     } catch (error) {
