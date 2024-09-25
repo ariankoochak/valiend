@@ -12,6 +12,7 @@ const isSafePassword = require('./lib/isSafePassword');
 const valiendCheck = require('./lib/valiendCheck');
 const schemaMaker = require('./lib/schemaMaker');
 const getOtpCode = require('./lib/getOtpCode');
+const isCreditCard = require('./lib/isCreditCard');
 
 
 module.exports = {
@@ -28,4 +29,5 @@ module.exports = {
     schemaMaker,
     valiendCheck,
     getOtpCode,
+    isCreditCard,
 };
