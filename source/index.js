@@ -13,6 +13,7 @@ const valiendCheck = require('./lib/valiendCheck');
 const schemaMaker = require('./lib/schemaMaker');
 const getOtpCode = require('./lib/getOtpCode');
 const isCreditCard = require('./lib/isCreditCard');
+const isPostalCode = require('./lib/isPostalCode');
 
 
 module.exports = {
@@ -24,6 +25,7 @@ module.exports = {
     passwordGenerator,
     isNumeric,
     isInRange,
+    isPostalCode,
     isUsername,
     isSafePassword,
     schemaMaker,
