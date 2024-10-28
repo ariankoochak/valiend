@@ -1,12 +1,10 @@
 const regionVATRegex = require("../utils/regionVATRegex");
 const checkRegex = require("../utils/checkRegex");
 // todo : add description for isVAT
-// todo : add Array suggestion for regions
-// todo : add VAT regex to <../utils/regionVATRegex>
 /**
  * 
  * @param {string} VAT
- * @param {Array<"">} regions An array of the list of valid regions where the VAT code can be in one of the entered regions
+ * @param {Array<"fi-AX" | "sq-AL" | "ca-AD" | "de-AT" | "be-BY" | "nl-BE" | "fr-BE" | "bg-BG" | "hr-HR" | "el-CY" | "cs-CZ" | "da-DK" | "et-EE" | "fo-FO" | "fi-FI" | "fr-FR" | "de-DE" | "el-GR" | "hu-HU" | "is-IS" | "en-IE" | "ga-IE" | "it-IT" | "sq-XK" | "lv-LV" | "de-LI" | "lt-LT" | "de-LU" | "en-MT" | "ro-MD" | "sr-ME" | "nl-NL" | "mk-MK" | "nb-NO" | "nn-NO" | "pl-PL" | "pt-PT" | "ro-RO" | "it-SM" | "sr-RS" | "sk-SK" | "sl-SI" | "es-ES" | "sv-SE" | "de-CH" | "fr-CH" | "it-CH" | "uk-UA" | "en-GB">} regions An array of the list of valid regions where the VAT code can be in one of the entered regions
  * @returns {boolean}
  */
 function isVAT(VAT, regions = []) {
