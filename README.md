@@ -37,10 +37,20 @@ check validate Phone number
 ```js
 valiend.isPhoneNumber('+989121234567'); //true
 
-valiend.isPhoneNumber('09121234567',{regions : ['fa-IR']}); //true
+valiend.isPhoneNumber('09121234567',['fa-IR']); //true
+```
+
+check validate Postal Code
+```js
+valiend.isPostalCode('12345-12345'); //true
+
+valiend.isPostalCode('12345-12345',['fa-IR','de-DE']); //true
+```
+check validate VAT number
+```js
+valiend.isVAT('DE494050532',['de-DE']); //true
 ```
 Check the contents of the password
-‍‍‍
 ```js
 valiend.passwordContains('Test4:@5tARian');
 /*{

@@ -70,9 +70,7 @@ function valiendCheck(
         if (phoneNumber !== null) {
             if (
                 options.phoneNumberSchema.regions.length > 0 &&
-                isPhoneNumber(phoneNumber, {
-                    regions: options.phoneNumberSchema.regions,
-                }) === false
+                isPhoneNumber(phoneNumber,options.phoneNumberSchema.regions) === false
             ) {
                 returnObj.errors.push({
                     phoneNumber: "phone number is not valid",

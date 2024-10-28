@@ -4,6 +4,7 @@ test("isPhoneNumber => '09121234567' :: false", () => {
     expect(valiend.isPhoneNumber("09121234567")).toBe(true);
 });
 
+
 test("isPhoneNumber => '+989121234567' :: true", () => {
     expect(valiend.isPhoneNumber("+989121234567")).toBe(true);
 });
@@ -29,17 +30,17 @@ test("isPhoneNumber => '+989121234567' :: true", () => {
 });
 
 test("isPhoneNumber => '+989121234567' :: true", () => {
-    expect(valiend.isPhoneNumber("+989121234567",{regions : ['fa-IR']})).toBe(true);
+    expect(valiend.isPhoneNumber("+989121234567",['fa-IR'])).toBe(true);
 });
 
 test("isPhoneNumber => '+989121234567' :: true", () => {
-    expect(valiend.isPhoneNumber("+989121234567", { regions: ["en-US"] })).toBe(false);
+    expect(valiend.isPhoneNumber("+989121234567", ["en-US"] )).toBe(false);
 });
 
 test("isPhoneNumber => '09121234567' :: true", () => {
-    expect(valiend.isPhoneNumber("09121234567", { regions: ["en-US","fa-IR"] })).toBe(true);
+    expect(valiend.isPhoneNumber("09121234567", ["en-US","fa-IR"] )).toBe(true);
 });
 
 test("isPhoneNumber => '09121234567' :: true", () => {
-    expect(valiend.isPhoneNumber("09121234567", { regions: ["foobar", "fa-IR"] })).toBe(true);
+    expect(valiend.isPhoneNumber("09121234567", ["foobar", "fa-IR"] )).toBe(true);
 });
