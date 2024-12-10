@@ -162,6 +162,3 @@ Validate all data together
     }
   */
 ```
-
-#### Next Release:
-- add arabic & persian number for isNumeric method
