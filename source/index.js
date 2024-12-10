@@ -16,6 +16,7 @@ const isCreditCard = require('./lib/isCreditCard');
 const isPostalCode = require('./lib/isPostalCode');
 const isVAT = require('./lib/isVAT');
 const englishNumberConvertor = require('./lib/englishNumberConvertor');
+const persianNumberConvertor = require("./lib/persianNumberConvertor");
 
 module.exports = {
     isEmail,
@@ -35,4 +36,5 @@ module.exports = {
     isCreditCard,
     isVAT,
     englishNumberConvertor,
+    persianNumberConvertor,
 };
