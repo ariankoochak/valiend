@@ -1,3 +1,5 @@
+const englishNumberConvertor = require("../utils/englishNumberConvertor");
+
 /**
  * With this method, you can check whether your variable is completely a numeric or not
  * @param {*} input
@@ -5,7 +7,12 @@
  */
 function isNumeric(input) {
     try {
-        let numberDataTypeInput = Number(input);
+        let strInput = ''
+        if(typeof input === 'string'){
+            strInput = englishNumberConvertor(input);
+        }
+        
+        let numberDataTypeInput = strInput !== '' ? Number(strInput) : Number(input);
         if (isNaN(numberDataTypeInput) || numberDataTypeInput === Infinity) {
             return false;
         }

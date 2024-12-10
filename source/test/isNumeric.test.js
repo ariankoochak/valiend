@@ -19,3 +19,7 @@ test("isNumeric => 'dsfsdsdv' :: false", () => {
 test("isNumeric => Numeber(324) :: true", () => {
     expect(valiend.isNumeric(324)).toBe(true);
 });
+
+test("isNumeric => Numeber(۱۳۴) :: true", () => {
+    expect(valiend.isNumeric('۱۳۴')).toBe(true);
+});
