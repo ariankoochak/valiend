@@ -14,8 +14,8 @@ const schemaMaker = require('./lib/schemaMaker');
 const getOtpCode = require('./lib/getOtpCode');
 const isCreditCard = require('./lib/isCreditCard');
 const isPostalCode = require('./lib/isPostalCode');
-const isVAT = require('./lib/isVAT')
-
+const isVAT = require('./lib/isVAT');
+const englishNumberConvertor = require('./lib/englishNumberConvertor');
 
 module.exports = {
     isEmail,
@@ -34,4 +34,5 @@ module.exports = {
     getOtpCode,
     isCreditCard,
     isVAT,
+    englishNumberConvertor,
 };
