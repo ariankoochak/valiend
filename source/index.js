@@ -18,7 +18,7 @@ const isVAT = require('./lib/isVAT');
 const englishNumberConvertor = require('./lib/englishNumberConvertor');
 const persianNumberConvertor = require("./lib/persianNumberConvertor");
 
-module.exports = {
+const valiend = {
     isEmail,
     isPhoneNumber,
     passwordContains,
@@ -38,3 +38,6 @@ module.exports = {
     englishNumberConvertor,
     persianNumberConvertor,
 };
+
+
+module.exports = valiend;
